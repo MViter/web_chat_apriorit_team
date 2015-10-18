@@ -41,6 +41,11 @@ namespace WebChat.DataAccess.Concrete.DataBase
                 return new WebChatDbContext();
         }
 
+        public string GenerateCustomerAppKey()
+        {
+            return Database.SqlQuery<string>("SELECT dbo.GenerateAppKey()").FirstOrDefault();
+        }
+
         #region Tables
         public virtual DbSet<CustomerApplication> CustomerApplication { get; set; }
         public virtual DbSet<Dialog> Dialog { get; set; }

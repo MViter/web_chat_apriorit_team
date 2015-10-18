@@ -17,6 +17,12 @@ namespace WebChat.DataAccess.Concrete.Repositories
         {
             _context = WebChatDbContext.GetInstance();
         }
+
+        public string GenerateAppKey()
+        {
+            return _context.GenerateCustomerAppKey();
+        }
+
         public IEnumerable<CustomerApplication> All
         {
             get { return _context.CustomerApplication.AsQueryable(); }
@@ -36,7 +42,7 @@ namespace WebChat.DataAccess.Concrete.Repositories
 
         public CustomerApplication Find(Func<CustomerApplication, bool> predicate)
         {
-            return _context.CustomerApplication.Where(predicate).AsQueryable().FirstOrDefault();
+            return _context.CustomerApplication.Where(predicate).FirstOrDefault();
         }
 
         public CustomerApplication GetById(dynamic Id)

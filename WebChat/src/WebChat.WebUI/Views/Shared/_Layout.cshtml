@@ -32,8 +32,9 @@
     </div>
     <div class="container body-content">
         @RenderBody()
-        <hr />
+        
         <footer>
+            <hr />
             <p>&copy; @DateTime.Now.Year – приложение ASP.NET</p>
         </footer>
     </div>
@@ -41,5 +42,9 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+   
+    <script src="~/Scripts/Chat/main.js">
+
+    </script>
 </body>
 </html>

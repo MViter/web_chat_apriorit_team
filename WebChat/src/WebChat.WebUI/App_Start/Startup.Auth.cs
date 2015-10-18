@@ -9,6 +9,9 @@ using WebChat.WebUI.Models;
 using WebChat.DataAccess.Concrete.DataBase;
 using WebChat.BusinessLogic.Managers;
 using WebChat.DataAccess.Concrete.Entities.Identity;
+using Microsoft.Owin.Security;
+using WebChat.DataAccess.Abstract;
+using WebChat.DataAccess.Concrete;
 
 namespace WebChat.WebUI
 {
@@ -22,9 +25,9 @@ namespace WebChat.WebUI
             app.CreatePerOwinContext<AppUserManager>(AppUserManager.Create);
             app.CreatePerOwinContext<AppSignInManager>(AppSignInManager.Create);
 
-            // Включение использования файла cookie, в котором приложение может хранить информацию для пользователя, выполнившего вход,
-            // и использование файла cookie для временного хранения информации о входах пользователя с помощью стороннего поставщика входа
-            // Настройка файла cookie для входа
+            app.CreatePerOwinContext<IUnitOfWork>(EfUnitOfWork.GetInstance);
+
+            app.SetDefaultSignInAsAuthenticationType(DefaultAuthenticationTypes.ApplicationCookie);
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
@@ -39,34 +42,16 @@ namespace WebChat.WebUI
                         getUserIdCallback: (id) => (id.GetUserId<int>()))
                 }
             });            
-            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
+                       
+            app.UseTwitterAuthentication(
+               consumerKey: "hpZUrEInHVdFmVJJmfBswuS7G",
+               consumerSecret: "iFapdkAi2k3OwKS9gq3eyPSsY2UVUSEAygF5WndsSQIxOfFT4s"
+            );
 
-            // Позволяет приложению временно хранить информацию о пользователе, пока проверяется второй фактор двухфакторной проверки подлинности.
-            app.UseTwoFactorSignInCookie(DefaultAuthenticationTypes.TwoFactorCookie, TimeSpan.FromMinutes(5));
-
-            // Позволяет приложению запомнить второй фактор проверки имени входа. Например, это может быть телефон или почта.
-            // Если выбрать этот параметр, то на устройстве, с помощью которого вы входите, будет сохранен второй шаг проверки при входе.
-            // Точно так же действует параметр RememberMe при входе.
-            app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
-
-            // Раскомментируйте приведенные далее строки, чтобы включить вход с помощью сторонних поставщиков входа
-            //app.UseMicrosoftAccountAuthentication(
-            //    clientId: "",
-            //    clientSecret: "");
-
-            //app.UseTwitterAuthentication(
-            //   consumerKey: "",
-            //   consumerSecret: "");
-
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
-
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseFacebookAuthentication(
+               appId: "1594773760771878",
+               appSecret: "5175b70906e8e324236195b11db5a04e"
+            );
         }
     }
 }

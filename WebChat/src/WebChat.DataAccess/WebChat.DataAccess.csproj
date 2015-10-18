@@ -58,7 +58,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IRepository.cs" />
+    <Compile Include="Abstract\IUnitOfWork.cs" />
     <Compile Include="Concrete\DataBase\WebChatDbContext.cs" />
+    <Compile Include="Concrete\EfUnitOfWork.cs" />
     <Compile Include="Concrete\Entities\Chat\Dialog.cs" />
     <Compile Include="Concrete\Entities\Chat\Message.cs" />
     <Compile Include="Concrete\Entities\Customer apps\CustomerApplication.cs" />

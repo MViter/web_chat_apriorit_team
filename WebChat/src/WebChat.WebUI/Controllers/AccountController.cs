@@ -327,6 +327,8 @@ namespace WebChat.WebUI.Controllers
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
             if (loginInfo == null)
             {
+                if(returnUrl == Url.Action("ChatMainPage", "ChatMainPage"))
+                    return RedirectToAction("StartPageFull", controllerName:"ChatStartPage");
                 return RedirectToAction("Login");
             }
 
